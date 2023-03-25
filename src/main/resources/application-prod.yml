@@ -1,0 +1,34 @@
+spring:
+  data:
+    redis:
+      host: redis-1-service
+  datasource:
+    url: jdbc:mariadb://mariadb-1-service:3306/gramgram__prod?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+    username: lldjlocal
+    password: 1234
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            redirect-uri: https://gramgram.ai/login/oauth2/code/kakao
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
+    hibernate:
+      ddl-auto: create
+logging:
+  level:
+    root: info
+    com.ll.gramgram: info
+    org.hibernate.orm.jdbc.bind: info
+    org.hibernate.orm.jdbc.extract: info
+custom:
+  genFile:
+    dirName: gen
+    dirParentPath: c:/temp/gramgram
+  site:
+    baseUrl: "https://gramgram.ai"

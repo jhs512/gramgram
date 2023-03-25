@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>인스타그램 계정 연결하기</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section flex-grow flex flex-col items-center justify-center">
+
+        <div class="max-w-md w-full px-2">
+            <h1 class="font-bold text-lg flex mb-2 icon-text">
+                <i class="fa-brands fa-instagram"></i>
+                <span class="ml-1">
+                    인스타그램 계정 연결하기
+                </span>
+            </h1>
+
+            <script>
+                function ConnectInstagramAccountForm__submit(form) {
+                    form.instagramAccountId.value = form.instagramAccountId.value.trim();
+
+                    if (form.instagramAccountId.value.length == 0) {
+                        warningModal('인스타그램 아이디를 입력해주세요.');
+                        form.instagramAccountId.focus();
+                        return;
+                    }
+
+                    const $checkedGenderRadioButton = $(form).find("[name=gender]:checked");
+
+                    if ($checkedGenderRadioButton.length == 0) {
+                        warningModal('성별을 선택해주세요.');
+                        $(form).find("[name=gender]:first").focus();
+                        return;
+                    }
+
+                    form.submit();
+                }
+            </script>
+
+            <form th:action method="POST" class="flex flex-col gap-4"
+                  onsubmit="ConnectInstagramAccountForm__submit(this); return false;">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">인스타그램 아이디</span>
+                    </label>
+                    <input type="text" name="instagramAccountId" placeholder="인스타그램 아이디" class="input input-bordered"
+                           maxlength="30"
+                           autocomplete="off" onpaste="$(this).keyup();" onchange="$(this).keyup();"
+                           onkeyup="$(this).next().children().eq(1).text(this.value)"
+                           th:value="${@rq.member.instagramAccountId}"
+                    >
+                    <div class="mt-2 text-sm break-all">
+                        <span>https://instagram.com/</span><span class="text-red-300"></span>
+                    </div>
+
+                    <script>
+                        $(`input[name="instagramAccountId"]:last`).keyup();
+                    </script>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">성별</span>
+                    </label>
+
+                    <div class="flex justify-center gap-4">
+                        <label class="flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="gender" class="radio peer" value="W">
+                            <span class="-order-1 peer-checked:font-bold peer-focus:font-bold">
+                                <i class="fa-solid fa-person"></i>
+                                여성
+                            </span>
+                        </label>
+
+                        <label class="flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="gender" class="radio peer" value="M">
+                            <span class="-order-1 peer-checked:font-bold peer-focus:font-bold">
+                                <i class="fa-solid fa-person"></i>
+                                남성
+                            </span>
+                        </label>
+                    </div>
+
+                    <script th:inline="javascript">
+                        const gender = /*[[ ${@rq.member.gender} ]]*/ null;
+
+                        if ( gender ) {
+                            $(`input[type="radio"][name="gender"][value="${gender}"]:last`).prop('checked', true);
+                        }
+                    </script>
+                </div>
+
+                <div class="btns mt-5 flex px-1">
+                    <button class="btn btn-primary w-full gap-1" type="submit">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>계정정보 입력</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        successModal("03시 15분까지 수정가능합니다. 그 이후에는 수정할 수 없습니다.");
+    </script>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>인기</title>
+</head>
+
+<body>
+<main layout:fragment="main">
+    <section class="section flex-grow flex flex-col items-center justify-center">
+        <div class="max-w-md w-full px-4">
+
+            <h1 class="font-bold text-lg flex mb-2 icon-text">
+                <i class="fa-solid fa-heart"></i>
+                <span class="ml-1">
+                    당신의 인기
+                </span>
+            </h1>
+
+            <div th:unless="${@rq.youHaveConnectedInstagramAccount}">
+                <div>
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>1/2단계 : 당신의 인스타그램 계정을 알려주세요.</span>
+                </div>
+                <div>
+                    <a href="/member/connectInstagramAccount" class="btn btn-primary btn-sm">인스타그램 계정 연결</a>
+                </div>
+            </div>
+
+            <div th:if="${@rq.youHaveConnectedInstagramAccount && !@rq.youHaveSelectedLikeablePeople}">
+                <div>
+                    <i class="fa-solid fa-heart-circle-plus"></i>
+                    <span>2/2단계 : 당신이 좋아하는 사람(3명)의 인스타그램 계정명을 입력해주세요.</span>
+                </div>
+                <div>
+                    <a href="/likeablePerson/manage" class="btn btn-primary btn-sm">호감표시 페이지로 이동</a>
+                </div>
+            </div>
+
+            <div th:if="${@rq.youHaveConnectedInstagramAccount && @rq.youHaveSelectedLikeablePeople}">
+                <div>
+                    현재
+                    <span class="text-red-600" th:text="${#numbers.formatInteger(5, 1, 'COMMA')}"></span>명이
+                    당신을 좋아합니다.
+                </div>
+
+                <div class="border-b-[1px] my-3 border-[#dfdfdf]"></div>
+
+                <div class="mt-2">
+                    <div class="mt-1">
+                        <i class="fa-solid fa-person-rays w-[20px]"></i>
+                        <span class="text-red-600" th:text="${#numbers.formatInteger(1, 1, 'COMMA')}"></span>명이
+                        당신의 <span class="text-red-600">외모</span>를 좋아합니다.
+                    </div>
+
+                    <div class="mt-1">
+                        <i class="fa-solid fa-people-carry-box w-[20px]"></i>
+                        <span class="text-red-600" th:text="${#numbers.formatInteger(2, 1, 'COMMA')}"></span>명이
+                        당신의 <span class="text-red-600">성격</span>을 좋아합니다
+                    </div>
+
+                    <div class="mt-1">
+                        <i class="fa-solid fa-child-reaching w-[20px]"></i>
+                        <span class="text-red-600" th:text="${#numbers.formatInteger(2, 1, 'COMMA')}"></span>명이
+                        당신의 <span class="text-red-600">능력</span>을 칭찬합니다.
+                    </div>
+
+                </div>
+
+                <div class="border-b-[1px] my-3 border-[#dfdfdf]"></div>
+
+                <div class="mt-2">
+
+                    <div class="mt-1">
+                        <i class="fa-solid fa-person w-[20px]"></i>
+                        <span class="text-red-600" th:text="${#numbers.formatInteger(3, 1, 'COMMA')}"></span>명의
+                        남자가 당신을 좋아합니다.
+                    </div>
+
+                    <div class="mt-1">
+                        <i class="fa-solid fa-person-dress w-[20px]"></i>
+                        <span class="text-red-600" th:text="${#numbers.formatInteger(2, 1, 'COMMA')}"></span>명이
+                        여자가 당신을 좋아합니다.
+                    </div>
+                </div>
+
+                <div class="mt-2 flex">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-list-ul"></i>
+                        <span class="ml-1">자세한 내역 확인</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
